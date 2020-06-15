@@ -1,0 +1,537 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Shopping list</title>
+		<style>
+body {
+	margin: 0;
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font-size: 20px;
+	line-height: 1.5;
+}
+*, ::after, ::before {
+	box-sizing: border-box;
+}
+.btn {
+	vertical-align: middle;
+	user-select: none;
+	border: 1px solid transparent;
+	font-size: 1rem;
+	border-radius: .25rem;
+}
+.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child), .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group > .input-group-append:last-child > .input-group-text:not(:last-child), .input-group > .input-group-append:not(:last-child) > .btn, .input-group > .input-group-append:not(:last-child) > .input-group-text, .input-group > .input-group-prepend > .btn, .input-group > .input-group-prepend > .input-group-text {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.btn-group > .btn-group:not(:first-child) > .btn, .btn-group > .btn:not(:first-child) {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.btn-group > .btn-group:not(:first-child), .btn-group > .btn:not(:first-child) {
+	margin-left: -1px;
+}
+.input-group-append .btn, .input-group-prepend .btn {
+	position: relative;
+	z-index: 2;
+}
+.input-group-append {
+	margin-left: -1px;
+}
+.btn-primary {
+	color: #fff;
+	background-color: #007bff;
+	border-color: #007bff;
+}
+.btn-group, .btn-group-vertical {
+	position: relative;
+	display: inline-flex;
+	vertical-align: middle;
+}
+.btn-group > .btn-group:not(:last-child) > .btn, .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.btn:not(:disabled):not(.disabled) {
+	cursor: pointer;
+}
+.btn-group-vertical > .btn, .btn-group > .btn {
+	position: relative;
+	flex: 1 1 auto;
+}
+.btn-outline-secondary {
+	padding: 0 5px;
+	margin: 5px 0;
+	color: #6c757d;
+	border-color: #6c757d;
+}
+button, input, optgroup, select, textarea {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+.input-group > .custom-select:not(:first-child), .input-group > .form-control:not(:first-child) {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.input-group > .custom-select:not(:last-child), .input-group > .form-control:not(:last-child) {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.input-group > .custom-file, .input-group > .custom-select, .input-group > .form-control, .input-group > .form-control-plaintext {
+	flex: 1 1 auto;
+	width: 1%;
+}
+.input-group {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	width: 100%;
+	width: 100px;
+	height: 40px;
+}
+.input-group-prepend {
+	margin-right: -1px;
+}
+.input-group-append, .input-group-prepend {
+	display: flex;
+}
+.form-control {
+	font-size: 1rem;
+	border: 1px solid #ced4da;
+}
+.collapse:not(.show) {
+	display: none;
+}
+.card-body {
+	flex: 1 1 auto;
+	min-height: 1px;
+	padding: 1.25rem;
+}
+.card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 1px solid rgba(0,0,0,.125);
+	border-radius: .25rem;
+}
+hr {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border: 0;
+	border-top: 1px solid rgba(0,0,0,.1);
+}
+.quantity {
+	height: auto;
+	text-align: center;
+	padding: 0;
+	margin: 5px 0;
+}
+.view-row {
+	display: flex;
+	padding-left: 45px;
+}
+.view-row>span {
+	padding-left: 5px;
+	flex: 1;
+}
+label {
+	width: 100%;
+}
+.toggle {
+	text-align: center;
+	width: 40px;
+	/* auto, since non-WebKit browsers doesn't support input styling */
+	height: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: auto 0;
+	border: none; /* Mobile Safari */
+	-webkit-appearance: none;
+	appearance: none;
+}
+button {
+	background: none;
+}
+.delete {
+	line-height: 40px;
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 40px;
+	height: 40px;
+	margin: auto 0;
+	font-size: 40px;
+	color: #cc9a9a;
+	margin-bottom: 6px;
+}
+.editing .delete {
+	color: #af5b5e;
+	display: block;
+}
+.delete:after {
+	content: '×';
+}
+.item-list li label {
+	display: inline-block;
+	padding-left: 30px;
+}
+.item-list li .toggle + div {
+	background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E');
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+.item-list li .toggle:checked + div {
+	background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23bddad5%22%20stroke-width%3D%223%22/%3E%3Cpath%20fill%3D%22%235dc2af%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22/%3E%3C/svg%3E');
+}
+.item-list li.editing .edit {
+	display: block;
+	width: calc(100% - 149px - 40px);
+	padding: 0;
+	margin-left: 149px;
+}
+.item-list li .edit {
+	display: none;
+}
+.item-list li.editing .view {
+	display: none;
+}
+li {
+	list-style: none;
+}
+.item-list li {
+	position: relative;
+	min-height: 40px;
+	margin-top: 2px;
+}
+.item-list li.checked label {
+	color: #d9d9d9;
+	text-decoration: line-through;
+}
+ul {
+	margin: 0;
+	padding: 0;
+}
+.new-item, .edit {
+	display: block;
+	width: calc(100% - 10px);
+	margin: 0 5px;
+	border: 1px solid #999;
+}
+.view {
+	padding-top: 1px;
+}
+.emojis {
+	position: absolute;
+	padding-left: 5px;
+}
+input {
+	outline: none;
+}
+		</style>
+		<style> [v-cloak] { display: none; } </style>
+	</head>
+	<body>
+		<section id="app" v-cloak>
+			<header>
+				<button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('settings').classList.toggle('show')">☰</button> Shopping list
+				<div class="collapse" id="settings">
+					<div class="card card-body">
+						<ul>
+							<li v-for="group in groups">
+								<div class="btn-group">
+									<button class="btn btn-outline-secondary" type="button" @click="modifyGroup(group, -1)">➖</button>
+									<button class="btn btn-outline-secondary" type="button" @click="modifyGroup(group, +1)">➕</button>
+								</div>
+								{{group.title}}
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<input type="text" class="new-item" v-model="newItem" @keyup.enter="addItem" list="proposed-items">
+				<datalist id="proposed-items">
+					<option v-for="item in items" :key="item.id">{{item.editContent}}</option>
+				</datalist>
+			</header>
+			<section v-show="items.length">
+				<ul class="item-list">
+					<item-component v-for="item in activeItems" :item="item" :key="item.id" v-on:delete="items.splice(items.indexOf(item), 1)"></item-component>
+				</ul>
+				<hr>
+				<ul class="item-list">
+					<item-component v-for="item in checkedItems" :item="item" :key="item.id" v-on:delete="items.splice(items.indexOf(item), 1)"></item-component>
+				</ul>
+			</section>
+		</section>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+		<script>
+/*global Vue, itemStorage */
+
+(function (exports) {
+
+'use strict';
+
+Vue.component('item-component', {
+	props: ['item'],
+	data: function() {
+		return {
+			editing: false,
+		}
+	},
+	methods: {
+		editItem: function() {
+			this.beforeEditCache = this.item.editContent;
+			this.editing = true;
+		},
+		doneEdit: function(event) {
+			if (!this.editing) {
+				return;
+			}
+			this.editing = false;
+			if (this.beforeEditCache != event.target.value) {
+				updateItem(this.item, false, {title: event.target.value});
+			}
+		},
+		cancelEdit: function() {
+			this.editing = false;
+		},
+		check: function(event) {
+			updateItem(this.item, true, {checked: event.target.checked});
+			event.preventDefault();
+		},
+		changeQuantity: function(amount) {
+			updateItem(this.item, false, {quantity: this.item.quantity + amount});
+		},
+		doneEditQuantity: function(event) {
+			updateItem(this.item, false, {quantity: parseFloat(event.target.value)});
+		},
+		deleteItem: function() {
+			var xhr = new XMLHttpRequest();
+			xhr.open('post', 'delete');
+			xhr.onload = () => {
+				var response = JSON.parse(xhr.response);
+				if (response == true) {
+					this.$emit('delete');
+				}
+			};
+			xhr.send(JSON.stringify({
+				id: this.item.id,
+				lat: lat,
+				lng: lng,
+			}));
+		},
+	},
+	directives: {
+		'item-focus': function (el, binding) {
+			if (binding.value) {
+				el.focus();
+			}
+		}
+	},
+	template: `
+<li class="item" :class="{checked: item.checked, editing: editing}">
+<div class="view">
+	<input class="toggle" type="checkbox" :checked="item.checked" @click="check($event)">
+	<div class="view-row">
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<button class="btn btn-outline-secondary" type="button" @click="changeQuantity(-1)">➖</button>
+			</div>
+			<input type="text" class="quantity form-control" :value="item.quantity" @change="doneEditQuantity($event)">
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" type="button" @click="changeQuantity(1)">➕</button>
+			</div>
+		</div>
+		<span>
+			<span class="emojis">{{item.emojis}}</span>
+			<label @click="editItem()">{{item.title}}</label>
+		</span>
+	</div>
+</div>
+<input class="edit" type="text" :value="item.editContent" v-item-focus="editing" @blur="doneEdit($event)" @change="doneEdit($event)" @keyup.esc="cancelEdit()">
+<button class="delete btn" @click="deleteItem()" @mousedown="$event.preventDefault()"></button>
+</li>
+`})
+
+class Item {
+	constructor({checked, emojis, id, quantity, title, lastMod}) {
+		this.checked = checked;
+		this.emojis = emojis;
+		this.id = id;
+		this.quantity = quantity;
+		this.title = title;
+		this.lastMod = lastMod;
+	}
+	get editContent() {
+		return this.emojis + '  ' + this.title;
+	}
+	compare(other) {
+		if (this.lastMod != other.lastMod) {
+			return other.lastMod.localeCompare(this.lastMod);
+		}
+		return this.title.localeCompare(other.title);
+	}
+}
+
+var filters = {
+	active: function(items) {
+		return items.filter(function(item) {
+			return !item.checked;
+		});
+	},
+	checked: function(items) {
+		return items.filter(function(item) {
+			return item.checked;
+		});
+	}
+};
+var lat = 0, lng = 0;
+
+function updateItem(item, updateLastMod, args) {
+	var xhr = new XMLHttpRequest();
+	xhr.open('post', 'update');
+	xhr.onload = () => {
+		Object.assign(item, JSON.parse(xhr.response)[0]);
+		if (updateLastMod) {
+			item.lastMod = new Date().toISOString();
+		}
+	};
+	xhr.send(JSON.stringify({
+		lat: lat,
+		lng: lng,
+		items: [{
+			id: item.id,
+			...args,
+		}],
+	}));
+}
+
+exports.app = new Vue({
+
+	el: '#app',
+
+	data: {
+		items: [],
+		groups: [
+			{
+				title: 'My list',
+				items: [
+					{quantity: 1, title: 'Bread'},
+					{quantity: 1, title: 'Milk'},
+					{quantity: 1, title: 'Eggs'},
+				],
+			},
+		],
+		newItem: '',
+	},
+
+	computed: {
+		checkedItems: function () {
+			var ret = filters.checked(this.items);
+			ret.sort((a, b) => a.compare(b));
+			return ret;
+		},
+		activeItems: function () {
+			var ret = filters.active(this.items);
+			ret.sort((a, b) => a.compare(b));
+			return ret;
+		},
+	},
+
+	created() {
+		var xhr = new XMLHttpRequest();
+		xhr.open('get', 'data.json');
+		xhr.onload = () => {
+			var now = new Date().toISOString();
+			var data = JSON.parse(xhr.response);
+			for (var item of data.items) {
+				item.lastMod = now;
+				this.items.push(new Item(item));
+			}
+		}
+		xhr.send(null);
+
+		navigator.geolocation.getCurrentPosition((position) => {
+			lat = position.coords.latitude;
+			lng = position.coords.longitude;
+		});
+	},
+
+	methods: {
+
+		addItem: function () {
+			this._addItem(this.newItem);
+			this.newItem = '';
+		},
+
+		_addItem: function (title) {
+			var xhr = new XMLHttpRequest();
+			xhr.open('post', 'new');
+			xhr.onload = () => {
+				var newItem = JSON.parse(xhr.response);
+				if (newItem != false) {
+					var existing = this.items.find(item => item.id == newItem.id);
+					newItem.lastMod = new Date().toISOString();
+					if (existing != null) {
+						Object.assign(existing, newItem);
+					} else {
+						this.items.push(new Item(newItem));
+					}
+				}
+			};
+			xhr.send(JSON.stringify({
+				title: title,
+				lat: lat,
+				lng: lng,
+			}));
+
+		},
+
+		modifyGroup: function(group, amount) {
+			var items = [];
+
+			for (var item2 of group.items) {
+				var item = this.items.find(item => item.title == item2.title);
+				if (item == null) {
+					return;
+				}
+				items.push({id: item.id, quantity: item.quantity + item2.quantity * amount});
+			}
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('post', 'update');
+			xhr.onload = () => {
+				var response = JSON.parse(xhr.response);
+				for (var newItem of response) {
+					var item = this.items.find(item => item.title == newItem.title);
+					Object.assign(item, newItem);
+					item.lastMod = new Date().toISOString();
+				}
+			};
+			xhr.send(JSON.stringify({
+				lat: lat,
+				lng: lng,
+				items: items,
+			}));
+		}
+	},
+});
+
+})(window);
+		</script>
+	</body>
+</html>

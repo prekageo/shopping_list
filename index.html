@@ -303,21 +303,21 @@ Vue.component('item-component', {
 			}
 			this.editing = false;
 			if (this.beforeEditCache != event.target.value) {
-				updateItem(this.item, false, {title: event.target.value});
+				updateItem(this.item, {title: event.target.value});
 			}
 		},
 		cancelEdit: function() {
 			this.editing = false;
 		},
 		check: function(event) {
-			updateItem(this.item, true, {checked: event.target.checked});
+			updateItem(this.item, {checked: event.target.checked});
 			event.preventDefault();
 		},
 		changeQuantity: function(amount) {
-			updateItem(this.item, false, {quantity: this.item.quantity + amount});
+			updateItem(this.item, {quantity: this.item.quantity + amount});
 		},
 		doneEditQuantity: function(event) {
-			updateItem(this.item, false, {quantity: parseFloat(event.target.value)});
+			updateItem(this.item, {quantity: parseFloat(event.target.value)});
 		},
 		deleteItem: function() {
 			var xhr = new XMLHttpRequest();
@@ -401,14 +401,15 @@ var filters = {
 };
 var lat = 0, lng = 0;
 
-function updateItem(item, updateLastMod, args) {
+function updateItem(item, args) {
 	var xhr = new XMLHttpRequest();
 	xhr.open('post', 'update');
 	xhr.onload = () => {
-		Object.assign(item, JSON.parse(xhr.response)[0]);
-		if (updateLastMod) {
+		var newObj = JSON.parse(xhr.response)[0];
+		if (item.checked != newObj.checked) {
 			item.lastMod = new Date().toISOString();
 		}
+		Object.assign(item, newObj);
 	};
 	xhr.send(JSON.stringify({
 		lat: lat,
